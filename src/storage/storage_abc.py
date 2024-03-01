@@ -7,5 +7,5 @@ class Storage_ABC(ABC):
         pass
 
     @abstractmethod
-    def upload(self):
+    def upload(self, file_name, path):
         pass
