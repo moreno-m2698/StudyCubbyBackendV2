@@ -1,4 +1,5 @@
-from storage import S3_Storage
+from src.storage import S3_Storage
+from fastapi import HTTPException
 
 class Image_Service():
 
@@ -7,5 +8,6 @@ class Image_Service():
         BUCKET_NAME = 'fed-alpaca'
         self._storage = S3_Storage(BUCKET_NAME)
 
-    def get_image(self):
-        pass
+    async def get_image(self):
+        response = self._storage.get_object(file_name = "test.jpg")
+        return response
