@@ -36,7 +36,8 @@ async def get_image_from_s3():
         # Get image object from S3
         response = s3_client.get_object(
             Bucket="fed-alpaca",
-            Key="test.jpg"
+            Key="test.jpg",
+            ResponseContentType='image/jpg'
         )
 
         # Check if response is successful
@@ -44,14 +45,14 @@ async def get_image_from_s3():
             raise HTTPException(status_code=500, detail="Failed to retrieve image from S3")
 
         # Return image content
+        print(response)
         image_data = response['Body'].read()
-        print(image_data)
+        # print(image_data)
+        result = Response(content=image_data, media_type="image/jpg")
+        print(result)
 
         # Return the image data with appropriate content type
-        return {
-            "Content-Type": response['ContentType'],
-            "body": image_data
-        }
+        return result
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
